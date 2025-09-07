@@ -1,0 +1,246 @@
+CONFIG
+├── data
+│   └── audio_type: foa                                                         
+│       audio_feature: logmelIV                                                 
+│       sample_rate: 24000                                                      
+│       nfft: 1024                                                              
+│       n_mels: 64                                                              
+│       hoplen: 240                                                             
+│       window: hann                                                            
+│       train_chunklen_sec: 10                                                  
+│       train_hoplen_sec: 10                                                    
+│       test_chunklen_sec: 10                                                   
+│       test_hoplen_sec: 10                                                     
+│       train_dataset:                                                          
+│         train20000_ov1_1:                                                     
+│         - fold0_room0                                                         
+│         train10000_ov2_1:                                                     
+│         - fold0_room0                                                         
+│         train3500_ov3_1:                                                      
+│         - fold0_room0                                                         
+│         train20000_ov1_2:                                                     
+│         - fold0_room0                                                         
+│         train10000_ov2_2:                                                     
+│         - fold0_room0                                                         
+│         train3500_ov3_2:                                                      
+│         - fold0_room0                                                         
+│       valid_dataset:                                                          
+│         test1800_ov1:                                                         
+│         - fold1_room1                                                         
+│         - fold1_room2                                                         
+│         - fold1_room3                                                         
+│         - fold1_room4                                                         
+│         - fold1_room5                                                         
+│         - fold1_room6                                                         
+│         - fold1_room7                                                         
+│         - fold1_room8                                                         
+│         - fold1_room9                                                         
+│         test900_ov2:                                                          
+│         - fold1_room1                                                         
+│         - fold1_room2                                                         
+│         - fold1_room3                                                         
+│         - fold1_room4                                                         
+│         - fold1_room5                                                         
+│         - fold1_room6                                                         
+│         - fold1_room7                                                         
+│         - fold1_room8                                                         
+│         - fold1_room9                                                         
+│         test360_ov3:                                                          
+│         - fold1_room1                                                         
+│         - fold1_room2                                                         
+│         - fold1_room3                                                         
+│         - fold1_room4                                                         
+│         - fold1_room5                                                         
+│         - fold1_room6                                                         
+│         - fold1_room7                                                         
+│         - fold1_room8                                                         
+│         - fold1_room9                                                         
+│       test_dataset:                                                           
+│         test1800_ov1:                                                         
+│         - fold1_room1                                                         
+│         - fold1_room2                                                         
+│         - fold1_room3                                                         
+│         - fold1_room4                                                         
+│         - fold1_room5                                                         
+│         - fold1_room6                                                         
+│         - fold1_room7                                                         
+│         - fold1_room8                                                         
+│         - fold1_room9                                                         
+│         test900_ov2:                                                          
+│         - fold1_room1                                                         
+│         - fold1_room2                                                         
+│         - fold1_room3                                                         
+│         - fold1_room4                                                         
+│         - fold1_room5                                                         
+│         - fold1_room6                                                         
+│         - fold1_room7                                                         
+│         - fold1_room8                                                         
+│         - fold1_room9                                                         
+│         test360_ov3:                                                          
+│         - fold1_room1                                                         
+│                                                                               
+├── model
+│   └── batch_size: 2                                                           
+│       backbone: HTSAT                                                         
+│       decoder: null                                                           
+│       num_decoder_layers: 2                                                   
+│       kwargs:                                                                 
+│         spec_size: 256                                                        
+│         patch_size: 4                                                         
+│         patch_stride:                                                         
+│         - 4                                                                   
+│         - 4                                                                   
+│         embed_dim: 96                                                         
+│         depths:                                                               
+│         - 2                                                                   
+│         - 2                                                                   
+│         - 6                                                                   
+│         - 2                                                                   
+│         num_heads:                                                            
+│         - 4                                                                   
+│         - 8                                                                   
+│         - 16                                                                  
+│         - 32                                                                  
+│         window_size: 8                                                        
+│         mlp_ratio: 4                                                          
+│         qkv_bias: true                                                        
+│         drop_rate: 0.0                                                        
+│         attn_drop_rate: 0.0                                                   
+│         drop_path_rate: 0.1                                                   
+│         ape: false                                                            
+│         patch_norm: true                                                      
+│         norm_before_mlp: ln                                                   
+│         audioset_pretrain: true                                               
+│         pretrained_path: null                                                 
+│       optimizer:                                                              
+│         method: AdamW                                                         
+│         kwargs:                                                               
+│           lr: 0.0001                                                          
+│           amsgrad: false                                                      
+│       lr_scheduler:                                                           
+│         method: StepLR                                                        
+│         kwargs:                                                               
+│           step_size: 40                                                       
+│           gamma: 0.1                                                          
+│       num_warmup_steps: 5                                                     
+│       method: accdoa                                                          
+│       loss:                                                                   
+│         _target_: loss.accdoa.Losses                                          
+│         loss_fn: mse                                                          
+│         loss_type: loss_all                                                   
+│                                                                               
+├── callbacks
+│   └── model_checkpoint:                                                       
+│         _target_: lightning.pytorch.callbacks.ModelCheckpoint                 
+│         dirpath: /workspace/logs/accdoa_HTSAT_infer/runs/2025-09-07_15-36-36/c
+│         filename: epoch_{epoch:03d}                                           
+│         monitor: val/macro/SELD_scr                                           
+│         verbose: false                                                        
+│         save_last: true                                                       
+│         save_top_k: 1                                                         
+│         mode: min                                                             
+│         auto_insert_metric_name: false                                        
+│         save_weights_only: false                                              
+│         every_n_train_steps: null                                             
+│         train_time_interval: null                                             
+│         every_n_epochs: null                                                  
+│         save_on_train_epoch_end: null                                         
+│       early_stopping:                                                         
+│         monitor: val/macro/SELD_scr                                           
+│         patience: 100                                                         
+│         mode: min                                                             
+│       model_summary:                                                          
+│         max_depth: -1                                                         
+│                                                                               
+├── logger
+│   └── tensorboard:                                                            
+│         _target_: lightning.pytorch.loggers.tensorboard.TensorBoardLogger     
+│         save_dir: /workspace/logs/accdoa_HTSAT_infer/runs/2025-09-07_15-36-36/
+│         name: null                                                            
+│         log_graph: false                                                      
+│         default_hp_metric: true                                               
+│         prefix: ''                                                            
+│                                                                               
+├── trainer
+│   └── _target_: lightning.pytorch.trainer.Trainer                             
+│       default_root_dir: /workspace/logs/accdoa_HTSAT_infer/runs/2025-09-07_15-
+│       min_epochs: 1                                                           
+│       max_epochs: 50                                                          
+│       accelerator: cpu                                                        
+│       devices: 1                                                              
+│       precision: 32-true                                                      
+│       check_val_every_n_epoch: 1                                              
+│       num_sanity_val_steps: 0                                                 
+│       deterministic: false                                                    
+│       gradient_clip_val: 1.0                                                  
+│                                                                               
+├── paths
+│   └── workspace_dir: ./                                                       
+│       dataset_dir: /workspace/datasets                                        
+│       hdf5_dir: /workspace/_hdf5                                              
+│       log_dir: ./logs/                                                        
+│       output_dir: /workspace/logs/accdoa_HTSAT_infer/runs/2025-09-07_15-36-36 
+│                                                                               
+├── extras
+│   └── ignore_warnings: false                                                  
+│       print_config: true                                                      
+│                                                                               
+├── augment
+│   └── type: []                                                                
+│       AugMix: false                                                           
+│       trackmix:                                                               
+│         _target_: augment.TrackMix                                            
+│         alpha: 0.5                                                            
+│       wavmix:                                                                 
+│         _target_: augment.WavMix                                              
+│         alpha: 0.5                                                            
+│         p: 0.5                                                                
+│       rotate:                                                                 
+│         _target_: augment.Rotation                                            
+│         p: 0.8                                                                
+│         rotation_type: 48                                                     
+│       specaug:                                                                
+│         _target_: augment.SpecAugment                                         
+│         T: 40                                                                 
+│         F: 8                                                                  
+│         mT: 4                                                                 
+│         mF: 2                                                                 
+│       crop:                                                                   
+│         _target_: augment.Crop                                                
+│         T: 8                                                                  
+│         F: 4                                                                  
+│         mC: 4                                                                 
+│       freqshift:                                                              
+│         _target_: augment.FreqShift                                           
+│         p: 0.5                                                                
+│         shift_range: 15                                                       
+│         direction: None                                                       
+│         mode: reflect                                                         
+│                                                                               
+├── datamodule
+│   └── _target_: data.datamodule.SELDDataModule                                
+│                                                                               
+├── modelmodule
+│   └── _target_: models.model_module.SELDModelModule                           
+│                                                                               
+├── adapt
+│   └── method: none                                                            
+│                                                                               
+├── task_name
+│   └── accdoa_HTSAT_infer                                                      
+├── experiment_name
+│   └── 2025-09-07_15-36-36                                                     
+├── mode
+│   └── test                                                                    
+├── num_workers
+│   └── 8                                                                       
+├── sed_threshold
+│   └── 0.5                                                                     
+├── ckpt_path
+│   └── None                                                                    
+├── seed
+│   └── 42                                                                      
+├── compile
+│   └── False                                                                   
+└── post_processing
+    └── None                                                                    

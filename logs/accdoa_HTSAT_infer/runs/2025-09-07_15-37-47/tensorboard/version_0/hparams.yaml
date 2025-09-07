@@ -1,0 +1,152 @@
+model:
+  batch_size: 2
+  backbone: HTSAT
+  decoder: null
+  num_decoder_layers: 2
+  kwargs:
+    spec_size: 256
+    patch_size: 4
+    patch_stride:
+    - 4
+    - 4
+    embed_dim: 96
+    depths:
+    - 2
+    - 2
+    - 6
+    - 2
+    num_heads:
+    - 4
+    - 8
+    - 16
+    - 32
+    window_size: 8
+    mlp_ratio: 4
+    qkv_bias: true
+    drop_rate: 0.0
+    attn_drop_rate: 0.0
+    drop_path_rate: 0.1
+    ape: false
+    patch_norm: true
+    norm_before_mlp: ln
+    audioset_pretrain: true
+    pretrained_path: null
+  optimizer:
+    method: AdamW
+    kwargs:
+      lr: 0.0001
+      amsgrad: false
+  lr_scheduler:
+    method: StepLR
+    kwargs:
+      step_size: 40
+      gamma: 0.1
+  num_warmup_steps: 5
+  method: accdoa
+  loss:
+    _target_: loss.accdoa.Losses
+    loss_fn: mse
+    loss_type: loss_all
+model/params/total: 0
+model/params/trainable: 0
+model/params/non_trainable: 0
+data:
+  audio_type: foa
+  audio_feature: logmelIV
+  sample_rate: 24000
+  nfft: 1024
+  n_mels: 64
+  hoplen: 240
+  window: hann
+  train_chunklen_sec: 10
+  train_hoplen_sec: 10
+  test_chunklen_sec: 10
+  test_hoplen_sec: 10
+  train_dataset:
+    train20000_ov1_1:
+    - fold0_room0
+    train10000_ov2_1:
+    - fold0_room0
+    train3500_ov3_1:
+    - fold0_room0
+    train20000_ov1_2:
+    - fold0_room0
+    train10000_ov2_2:
+    - fold0_room0
+    train3500_ov3_2:
+    - fold0_room0
+  valid_dataset:
+    test1800_ov1:
+    - fold1_room1
+    - fold1_room2
+    - fold1_room3
+    - fold1_room4
+    - fold1_room5
+    - fold1_room6
+    - fold1_room7
+    - fold1_room8
+    - fold1_room9
+    test900_ov2:
+    - fold1_room1
+    - fold1_room2
+    - fold1_room3
+    - fold1_room4
+    - fold1_room5
+    - fold1_room6
+    - fold1_room7
+    - fold1_room8
+    - fold1_room9
+    test360_ov3:
+    - fold1_room1
+    - fold1_room2
+    - fold1_room3
+    - fold1_room4
+    - fold1_room5
+    - fold1_room6
+    - fold1_room7
+    - fold1_room8
+    - fold1_room9
+  test_dataset:
+    test360_ov3:
+    - fold1_room1
+trainer:
+  _target_: lightning.pytorch.trainer.Trainer
+  default_root_dir: ${paths.output_dir}
+  min_epochs: 1
+  max_epochs: 50
+  accelerator: cpu
+  devices: 1
+  precision: 32-true
+  check_val_every_n_epoch: 1
+  num_sanity_val_steps: 0
+  deterministic: false
+  gradient_clip_val: 1.0
+callbacks:
+  model_checkpoint:
+    _target_: lightning.pytorch.callbacks.ModelCheckpoint
+    dirpath: ${paths.output_dir}/checkpoints
+    filename: epoch_{epoch:03d}
+    monitor: val/macro/SELD_scr
+    verbose: false
+    save_last: true
+    save_top_k: 1
+    mode: min
+    auto_insert_metric_name: false
+    save_weights_only: false
+    every_n_train_steps: null
+    train_time_interval: null
+    every_n_epochs: null
+    save_on_train_epoch_end: null
+  early_stopping:
+    monitor: val/macro/SELD_scr
+    patience: 100
+    mode: min
+  model_summary:
+    max_depth: -1
+extras:
+  ignore_warnings: false
+  print_config: true
+task_name: ${model.method}_${model.backbone}_infer
+tags: null
+ckpt_path: null
+seed: 42

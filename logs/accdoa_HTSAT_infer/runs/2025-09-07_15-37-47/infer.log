@@ -1,0 +1,13 @@
+[2025-09-07 15:37:47,937][utils.utilities][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2025-09-07 15:37:47,982][__main__][INFO] - Instantiating datamodule <data.datamodule.SELDDataModule> ...
+[2025-09-07 15:37:48,130][data.datamodule][INFO] - Testing clip number is: 1
+[2025-09-07 15:37:48,130][__main__][INFO] - Instantiating model <models.model_module.SELDModelModule> ...
+[2025-09-07 15:37:48,257][models.components.model_module][INFO] - loss_MSE is used as the 1st loss.
+[2025-09-07 15:37:48,261][__main__][INFO] - Instantiating callbacks...
+[2025-09-07 15:37:48,261][utils.utilities][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2025-09-07 15:37:48,263][__main__][INFO] - Instantiating loggers...
+[2025-09-07 15:37:48,264][utils.utilities][INFO] - Instantiating logger <lightning.pytorch.loggers.tensorboard.TensorBoardLogger>
+[2025-09-07 15:37:48,265][__main__][INFO] - Instantiating trainer <lightning.pytorch.trainer.Trainer>
+[2025-09-07 15:37:48,273][__main__][INFO] - Logging hyperparameters!
+[2025-09-07 15:37:48,318][__main__][INFO] - Starting infering!
+[2025-09-07 15:37:49,080][models.components.model_module][INFO] - Number of parameters of net: 27558299

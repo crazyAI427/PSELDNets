@@ -1,0 +1,15 @@
+[2025-09-07 15:39:22,932][utils.utilities][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2025-09-07 15:39:22,974][__main__][INFO] - Instantiating datamodule <data.datamodule.SELDDataModule> ...
+[2025-09-07 15:39:23,107][data.datamodule][INFO] - Testing clip number is: 1
+[2025-09-07 15:39:23,107][__main__][INFO] - Instantiating model <models.model_module.SELDModelModule> ...
+[2025-09-07 15:39:23,233][models.components.model_module][INFO] - loss_MSE is used as the 1st loss.
+[2025-09-07 15:39:23,236][__main__][INFO] - Instantiating callbacks...
+[2025-09-07 15:39:23,236][utils.utilities][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2025-09-07 15:39:23,239][__main__][INFO] - Instantiating loggers...
+[2025-09-07 15:39:23,239][utils.utilities][INFO] - Instantiating logger <lightning.pytorch.loggers.tensorboard.TensorBoardLogger>
+[2025-09-07 15:39:23,241][__main__][INFO] - Instantiating trainer <lightning.pytorch.trainer.Trainer>
+[2025-09-07 15:39:23,251][__main__][INFO] - Logging hyperparameters!
+[2025-09-07 15:39:23,288][__main__][INFO] - Starting infering!
+[2025-09-07 15:39:23,943][models.components.model_module][INFO] - Number of parameters of net: 27585953
+[2025-09-07 15:39:24,105][models.components.model_module][INFO] - Rsults are saved to /workspace/logs/accdoa_HTSAT_infer/runs/2025-09-07_15-39-22/submissions
+

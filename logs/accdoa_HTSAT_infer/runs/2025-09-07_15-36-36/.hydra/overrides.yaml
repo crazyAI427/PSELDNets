@@ -1,0 +1,9 @@
+- mode=test
+- data.test_dataset={}
+- data.test_dataset.test360_ov3=[fold1_room1]
+- paths.dataset_dir=/workspace/datasets
+- paths.hdf5_dir=/workspace/_hdf5
+- trainer.accelerator=cpu
+- trainer.devices=1
+- model.batch_size=2
+- model.kwargs.pretrained_path=null
